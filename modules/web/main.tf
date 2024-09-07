@@ -55,6 +55,6 @@ resource "google_compute_instance" "web" {
       # Leave empty for dynamic public IP
     }
   }  
- metadata_startup_script = "apt -y update; apt -y install nginx; echo ${var.app_name} > /var/wwww/html/index.html"
+ metadata_startup_script = "apt -y update; apt -y install nginx; echo ${var.app_name} > /var/www/html/index.html"
  allow_stopping_for_update = true 
 }
