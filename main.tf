@@ -31,19 +31,6 @@ ingress_rules = [
 
 }
 
-#will be kept for terrraform not to struggle will one is deleted and other is created 
-#name collision error
-resource "google_compute_network" "app" {
-  name                    = var.network_name
-  auto_create_subnetworks = false
-}
-
-resource "google_compute_subnetwork" "app" { 
-  name          = var.network_name
-  ip_cidr_range = var.network_ip_range
-  region        = var.region
-  network       = google_compute_network.app.id
-}
 
 data "google_compute_image" "ubuntu" {
   most_recent = true
@@ -54,8 +41,9 @@ data "google_compute_image" "ubuntu" {
 resource "google_compute_instance" "web" {
   name         = var.app_name
   machine_type = var.machine_type
-
-  
+ 
+  tags = ["${var.network_name}-web"]
+   
   boot_disk {
     initialize_params {
       image = data.google_compute_image.ubuntu.self_link
@@ -67,6 +55,6 @@ resource "google_compute_instance" "web" {
       # Leave empty for dynamic public IP
     }
   }  
-
+ metadata_startup_script = "apt -y update; apt -y install nginx; echo ${var.app_name} > /var/wwww/html/index.html"
  allow_stopping_for_update = true 
 }
