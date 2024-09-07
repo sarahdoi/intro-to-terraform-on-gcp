@@ -1,6 +1,6 @@
+#remove default to makee them rquired & specified outside the module
 variable "project_id" {
   type = string
-  default = "terraform-434811"
 }
 
 variable "region" {
@@ -10,7 +10,7 @@ variable "region" {
 
 variable "network_name" { #for net and sub
   type = string
-  default = "app"
+
 }
 
 variable "network_ip_range" {
@@ -32,7 +32,6 @@ variable "image_family" {
 
 variable "app_name" {
   type = string
-  default = "web"
 }
 
 variable "machine_type" {
